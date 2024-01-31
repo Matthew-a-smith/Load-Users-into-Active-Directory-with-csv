@@ -1,9 +1,8 @@
-﻿$users = Import-Csv -Path C:\Users\Administrator\Desktop\testfile.csv
+$users = Import-Csv -Path C:\Users\Administrator\Desktop\testfile.csv
 
 foreach ($user in $users) {
     $username = $user.username
     $firstname = $user.firstname
-    $lastname = $user.lastname
     $IDnumber = $user.IDnumber
 
     # Check if user already exists
@@ -12,15 +11,15 @@ foreach ($user in $users) {
     }
     else {
         # Specify the OU for the user (update the DistinguishedName accordingly)
-        $ouPath = "OU=YourOU,DC=yourdomain,DC=com"
+        $ouPath = "OU=YourUserOU,DC=yourdomain,DC=com"
 
         $pass = ConvertTo-SecureString -String "password123!!" -AsPlainText -Force
 
-        # Create the new user
+        # Create the new user without specifying a last name
         New-ADUser `
             -Name $username `
             -GivenName $firstname `
-            -Surname $lastname `
+            -Surname "" `
             -SamAccountName $IDnumber `
             -AccountPassword $pass `
             -Enabled $True `
